@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import br.edu.ifs.course.entities.Category;
 import br.edu.ifs.course.entities.Order;
 import br.edu.ifs.course.entities.OrderItem;
+import br.edu.ifs.course.entities.Payment;
 import br.edu.ifs.course.entities.Product;
 import br.edu.ifs.course.entities.User;
 import br.edu.ifs.course.entities.enums.OrderStatus;
@@ -55,7 +56,7 @@ public class TestConfig implements CommandLineRunner {
 		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
 		User u2 = new User(null, "Alex Green", "alex@gmail.com", "977777777", "123456");
 
-		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), u1, OrderStatus.WAITING_PAYMENT);
+		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), u1, OrderStatus.PAID);
 		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), u2, OrderStatus.DELIVERED);
 		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), u1, OrderStatus.SHIPPED);
 
@@ -81,7 +82,11 @@ public class TestConfig implements CommandLineRunner {
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 		
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
 		
+		o1.setPayment(pay1);
+
+		orderRepository.save(o1);
 
 	}
 
