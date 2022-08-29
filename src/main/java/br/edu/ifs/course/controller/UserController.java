@@ -3,7 +3,6 @@ package br.edu.ifs.course.controller;
 import java.net.URI;
 import java.util.List;
 
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,13 +28,13 @@ public class UserController {
 	@GetMapping()
 	public ResponseEntity<List<User>> findAll() {
 		List<User> userList = userService.findAll();
-		return ResponseEntity.ok().body(userList);
+		return ResponseEntity.ok(userList);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<User> findById(@PathVariable Long id) {
 		User user = userService.findById(id);
-		return ResponseEntity.ok().body(user);
+		return ResponseEntity.ok(user);
 	}
 	
 	@PostMapping()
