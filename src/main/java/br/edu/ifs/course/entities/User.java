@@ -2,21 +2,30 @@ package br.edu.ifs.course.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tab_user")
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -27,21 +36,38 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
+	@Column(unique = true)
+	private String username;
+	private boolean accountExpired;
+	private boolean accountLocked;
+	private boolean credentialsExpired;
+	private boolean enable;
+	
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "tb_user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private List<Role> authorities = new ArrayList<>();
 
 	public User() {
 	}
-
-	public User(Long i, String name, String email, String phone, String password) {
+	
+	public User(Long id, String name, String email, String phone, String password, String username,
+			boolean accountExpired, boolean accountLocked, boolean credentialsExpired, boolean enable) {
 		super();
-		this.id = i;
+		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
+		this.username = username;
+		this.accountExpired = accountExpired;
+		this.accountLocked = accountLocked;
+		this.credentialsExpired = credentialsExpired;
+		this.enable = enable;
 	}
 
 	public Long getId() {
@@ -87,7 +113,57 @@ public class User implements Serializable {
 	public List<Order> getOrders() {
 		return orders;
 	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
+	public void setAccountExpired(boolean accountExpired) {
+		this.accountExpired = accountExpired;
+	}
+
+	public void setAccountLocked(boolean accountLocked) {
+		this.accountLocked = accountLocked;
+	}
+
+	public void setCredentialsExpired(boolean credentialsExpired) {
+		this.credentialsExpired = credentialsExpired;
+	}
+
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities;
+	}
+
+	@Override
+	public String getUsername() {
+		return username;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return !accountExpired;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return !accountLocked;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return !credentialsExpired;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return enable;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -104,7 +180,5 @@ public class User implements Serializable {
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
 	
 }

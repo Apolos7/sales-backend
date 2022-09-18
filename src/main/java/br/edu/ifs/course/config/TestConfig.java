@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.edu.ifs.course.entities.Category;
 import br.edu.ifs.course.entities.Order;
@@ -39,6 +40,9 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	private OrderItemRepository orderItemRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -53,9 +57,11 @@ public class TestConfig implements CommandLineRunner {
 		Category cat2 = new Category(null, "Books");
 		Category cat3 = new Category(null, "Computers");
 
-		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
-		User u2 = new User(null, "Alex Green", "alex@gmail.com", "977777777", "123456");
-
+		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "988888888", "123456","mmBrown", false, false, false, true);
+		User u2 = new User(null, "Alex Green", "alex@gmail.com", "977777777", "123456", "alexG", false, false, false, true);
+		u1.setPassword(passwordEncoder.encode(u1.getPassword()));
+		u2.setPassword(passwordEncoder.encode(u2.getPassword()));
+		
 		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), u1, OrderStatus.PAID);
 		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), u2, OrderStatus.DELIVERED);
 		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), u1, OrderStatus.SHIPPED);
