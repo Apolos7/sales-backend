@@ -43,14 +43,13 @@ public class User implements Serializable, UserDetails {
 	private boolean credentialsExpired;
 	private boolean enable;
 	
-	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tb_user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private List<Role> authorities = new ArrayList<>();
+	private List<Role> roles = new ArrayList<>();
 
 	public User() {
 	}
@@ -133,10 +132,14 @@ public class User implements Serializable, UserDetails {
 	public void setEnable(boolean enable) {
 		this.enable = enable;
 	}
+	
+	public List<Role> getRoles() {
+		return roles;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
+		return roles;
 	}
 
 	@Override

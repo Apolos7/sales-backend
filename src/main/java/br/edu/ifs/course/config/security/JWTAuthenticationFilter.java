@@ -32,7 +32,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-
+		
 		try {
 			User loginDetails = new ObjectMapper().readValue(request.getInputStream(), User.class);
 			return authenticationManager.authenticate(

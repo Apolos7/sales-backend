@@ -14,12 +14,15 @@ import br.edu.ifs.course.entities.Order;
 import br.edu.ifs.course.entities.OrderItem;
 import br.edu.ifs.course.entities.Payment;
 import br.edu.ifs.course.entities.Product;
+import br.edu.ifs.course.entities.Role;
 import br.edu.ifs.course.entities.User;
 import br.edu.ifs.course.entities.enums.OrderStatus;
+import br.edu.ifs.course.entities.enums.RoleName;
 import br.edu.ifs.course.repositories.CategoryRepository;
 import br.edu.ifs.course.repositories.OrderItemRepository;
 import br.edu.ifs.course.repositories.OrderRepository;
 import br.edu.ifs.course.repositories.ProductRepository;
+import br.edu.ifs.course.repositories.RoleRepository;
 import br.edu.ifs.course.repositories.UserRepository;
 
 @Configuration
@@ -42,6 +45,9 @@ public class TestConfig implements CommandLineRunner {
 	private OrderItemRepository orderItemRepository;
 	
 	@Autowired
+	private RoleRepository roleRepository;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Override
@@ -61,6 +67,9 @@ public class TestConfig implements CommandLineRunner {
 		User u2 = new User(null, "Alex Green", "alex@gmail.com", "977777777", "123456", "alexG", false, false, false, true);
 		u1.setPassword(passwordEncoder.encode(u1.getPassword()));
 		u2.setPassword(passwordEncoder.encode(u2.getPassword()));
+		
+		Role role1 = new Role(null, RoleName.ADMIN);
+		Role role2 = new Role(null, RoleName.USER);
 		
 		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), u1, OrderStatus.PAID);
 		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), u2, OrderStatus.DELIVERED);
@@ -87,6 +96,12 @@ public class TestConfig implements CommandLineRunner {
 		OrderItem oi4 = new OrderItem(o3, p5, 2);
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		roleRepository.saveAll(Arrays.asList(role1, role2));
+		
+		u1.getRoles().add(role1);
+		u2.getRoles().add(role2);
+		
+		userRepository.saveAll(Arrays.asList(u1, u2));
 		
 		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
 		
