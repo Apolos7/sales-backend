@@ -18,9 +18,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.edu.ifs.course.entities.User;
 import br.edu.ifs.course.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping(value = "/users")
+@SecurityRequirement(name = "sales")
 public class UserController {
 	
 	@Autowired
@@ -28,31 +31,36 @@ public class UserController {
 	
 	@GetMapping()
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@Operation(summary = "Find all users.")
 	public ResponseEntity<List<User>> findAll() {
 		List<User> userList = userService.findAll();
 		return ResponseEntity.ok(userList);
 	}
 	
 	@GetMapping("/{id}")
+	@Operation(summary = "Find a user by id.")
 	public ResponseEntity<User> findById(@PathVariable Long id) {
 		User user = userService.findById(id);
 		return ResponseEntity.ok(user);
 	}
 	
 	@PostMapping()
-	public ResponseEntity<User> insert(@RequestBody User user) {
+	@Operation(summary = "Register a user in the system.")
+	public ResponseEntity<User> register(@RequestBody User user) {
 		user = userService.insert(user);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(user);
 	}
 	
 	@DeleteMapping("/{id}")
+	@Operation(summary = "Delete a user from the system.")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		userService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping("/{id}")
+	@Operation(summary = "Update user information that's is present in the system.")
 	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User user) {
 		user = userService.update(id, user);
 		return ResponseEntity.ok(user);

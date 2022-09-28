@@ -49,7 +49,7 @@ public class WebSecurity {
 	
 	@Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/h2-console/**");
+        return (web) -> web.ignoring().antMatchers("/h2-console/**", "/api-docs/**", "/sales-api/**", "/swagger-ui/**");
     }
 
 	@Bean

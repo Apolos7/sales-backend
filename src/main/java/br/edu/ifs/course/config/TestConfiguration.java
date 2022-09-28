@@ -27,7 +27,7 @@ import br.edu.ifs.course.repositories.UserRepository;
 
 @Configuration
 @Profile("test")
-public class TestConfig implements CommandLineRunner {
+public class TestConfiguration implements CommandLineRunner {
 
 	@Autowired
 	private UserRepository userRepository;

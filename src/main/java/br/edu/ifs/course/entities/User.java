@@ -133,6 +133,7 @@ public class User implements Serializable, UserDetails {
 		this.enable = enable;
 	}
 	
+	@JsonIgnore
 	public List<Role> getRoles() {
 		return roles;
 	}
