@@ -32,11 +32,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		
+
 		try {
 			User loginDetails = new ObjectMapper().readValue(request.getInputStream(), User.class);
-			return authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(loginDetails.getUsername(), loginDetails.getPassword(), loginDetails.getAuthorities()));
+			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+					loginDetails.getUsername(), loginDetails.getPassword(), loginDetails.getAuthorities()));
 		} catch (IOException e) {
 			throw new RuntimeException("User cannot be authenticated.");
 		}
@@ -47,7 +47,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			Authentication authResult) throws IOException, ServletException {
 
 		User loginDetails = (User) authResult.getPrincipal();
-		
+
 		String token = JWT.create().withSubject(loginDetails.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis() + AuthenticationConfigConstants.TOKEN_EXPIRATION))
 				.sign(Algorithm.HMAC512(AuthenticationConfigConstants.SECRET));

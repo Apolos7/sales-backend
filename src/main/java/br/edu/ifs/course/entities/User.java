@@ -1,6 +1,5 @@
 package br.edu.ifs.course.entities;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,10 +24,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tab_user")
-public class User implements Serializable, UserDetails {
+public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -42,18 +41,18 @@ public class User implements Serializable, UserDetails {
 	private boolean accountLocked;
 	private boolean credentialsExpired;
 	private boolean enable;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tb_user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles = new ArrayList<>();
 
 	public User() {
 	}
-	
+
 	public User(Long id, String name, String email, String phone, String password, String username,
 			boolean accountExpired, boolean accountLocked, boolean credentialsExpired, boolean enable) {
 		super();
@@ -108,11 +107,11 @@ public class User implements Serializable, UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public List<Order> getOrders() {
 		return orders;
 	}
-	
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -132,7 +131,7 @@ public class User implements Serializable, UserDetails {
 	public void setEnable(boolean enable) {
 		this.enable = enable;
 	}
-	
+
 	@JsonIgnore
 	public List<Role> getRoles() {
 		return roles;
@@ -167,7 +166,7 @@ public class User implements Serializable, UserDetails {
 	public boolean isEnabled() {
 		return enable;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -184,5 +183,5 @@ public class User implements Serializable, UserDetails {
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
-	
+
 }
