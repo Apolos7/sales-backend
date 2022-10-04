@@ -1,6 +1,6 @@
 # Sales Back-end
 
-Sales Backend is an API built in order to put into practice concepts learned during the course "COMPLETE Java Object Oriented Programming + Projects", in addition, with the motivation of further enriching the project, spring security was added and it was done the documentation via OpenAPI.
+Sales Backend is an API built in order to put into practice concepts learned during the course "Java COMPLETO Programação Orientada a Objetos +Projetos", in addition, with the motivation of further enriching the project, spring security was added and it was done the documentation via OpenAPI.
 
 ## 🍃 Spring Boot
 
