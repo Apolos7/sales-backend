@@ -23,4 +23,4 @@ Spring Boot is a quick way to start a complex java application, by providing sim
 
 ## ⚠️ How to run this project
 
-After downloading the project, you will first need to set `JWTSECRET` as an environment variable, after that you can run `mvn install` to download the dependencies and then select which profile you want to use (this setting is present in  `application.properties`), after these simple steps you can run the application.
+After downloading the project, you will first need to set `JWTSECRET` as an environment variable, after that you can run `mvn clean compile` to download and compile the dependencies and then select which profile you want to use (this setting is present in  `application.properties`), after these simple steps you can run the application.
