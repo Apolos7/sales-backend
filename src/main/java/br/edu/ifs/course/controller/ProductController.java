@@ -21,7 +21,7 @@ public class ProductController {
 	private ProductService productService;
 	
 	@GetMapping()
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	/*@PreAuthorize("hasRole('ROLE_ADMIN')")*/
 	public ResponseEntity<List<Product>> findAll() {
 		List<Product> userList = productService.findAll();
 		return ResponseEntity.ok().body(userList);

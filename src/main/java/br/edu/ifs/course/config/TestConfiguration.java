@@ -65,8 +65,10 @@ public class TestConfiguration implements CommandLineRunner {
 
 		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "988888888", "123456","mmBrown", false, false, false, true);
 		User u2 = new User(null, "Alex Green", "alex@gmail.com", "977777777", "123456", "alexG", false, false, false, true);
+		/*
+		Desabilitando a encriptação do password
 		u1.setPassword(passwordEncoder.encode(u1.getPassword()));
-		u2.setPassword(passwordEncoder.encode(u2.getPassword()));
+		u2.setPassword(passwordEncoder.encode(u2.getPassword()));*/
 		
 		Role role1 = new Role(null, RoleName.ADMIN);
 		Role role2 = new Role(null, RoleName.USER);

@@ -30,7 +30,7 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping()
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	/*@PreAuthorize("hasRole('ROLE_ADMIN')")*/
 	@Operation(summary = "Find all users.")
 	public ResponseEntity<List<User>> findAll() {
 		List<User> userList = userService.findAll();

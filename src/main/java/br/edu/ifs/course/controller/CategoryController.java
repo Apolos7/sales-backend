@@ -21,7 +21,7 @@ public class CategoryController {
 	private CategoryService categoryService;
 	
 	@GetMapping()
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	/*@PreAuthorize("hasRole('ROLE_ADMIN')")*/
 	public ResponseEntity<List<Category>> findAll() {
 		List<Category> userList = categoryService.findAll();
 		return ResponseEntity.ok().body(userList);

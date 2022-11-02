@@ -22,14 +22,14 @@ import br.edu.ifs.course.services.UserDetailServiceImpl;
 @EnableWebSecurity(debug = false)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurity {
+
+    @Autowired
+    AuthenticationConfiguration authenticationConfiguration;
+
+    @Autowired
+    UserDetailServiceImpl userDetailServiceImpl;
 	
-	@Autowired
-	AuthenticationConfiguration authenticationConfiguration;
-	
-	@Autowired
-	UserDetailServiceImpl userDetailServiceImpl;
-	
-	@Bean
+	/*@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll()
 				.anyRequest().authenticated()
@@ -39,22 +39,32 @@ public class WebSecurity {
 				.csrf().disable()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		return http.build();
-	}
+	}*/
 
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-			throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
-	}
-	
-	@Bean
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .anyRequest().permitAll()
+                .and()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers("/h2-console/**", "/api-docs/**", "/sales-api/**", "/swagger-ui/**");
     }
 
-	@Bean
-	public PasswordEncoder getPasswordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 
 }

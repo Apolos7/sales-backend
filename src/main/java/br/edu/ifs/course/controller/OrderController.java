@@ -21,7 +21,7 @@ public class OrderController {
 	private OrderService orderService;
 	
 	@GetMapping()
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	/*@PreAuthorize("hasRole('ROLE_ADMIN')")*/
 	public ResponseEntity<List<Order>> findAll() {
 		List<Order> orderList = orderService.findAll();
 		return ResponseEntity.ok().body(orderList);

@@ -35,7 +35,7 @@ public class UserService {
 	}
 
 	public User insert(User user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		// disable password encoder -> user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 
